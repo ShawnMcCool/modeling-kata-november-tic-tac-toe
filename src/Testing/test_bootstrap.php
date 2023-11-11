@@ -1,8 +1,6 @@
 <?php
 
-namespace Tests;
-
-use Throwable;
+use TicTacToe\Testing\InvalidAssertion;
 
 require 'vendor/autoload.php';
 

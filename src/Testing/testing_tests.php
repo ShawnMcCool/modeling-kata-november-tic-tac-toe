@@ -1,6 +1,6 @@
-<?php namespace Tests;
+<?php
 
-use Exception;
+use TicTacToe\Testing\InvalidAssertion;
 
 it('identifies failing assertions', function () {
     expectException(
