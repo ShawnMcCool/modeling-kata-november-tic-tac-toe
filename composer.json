@@ -14,14 +14,12 @@
     }
   },
   "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    },
     "files": [
-      "src/Testing/test_bootstrap.php"
+      "src/Testing/testing.php"
     ]
   },
   "require": {
-    "php": "^8.2"
+    "php": "^8.2",
+    "shawnmccool/phansi": "^0.0.1"
   }
 }

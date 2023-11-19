@@ -6,11 +6,19 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit1239a1f3e68760cd79129bd5c15e4482
 {
+    public static $files = array (
+        '872c44ae2fa5f07d10e3701bc20e2ffe' => __DIR__ . '/..' . '/shawnmccool/phansi/src/functions.php',
+        '9ad9cbc46a6a260d6e72fdf24cce83fd' => __DIR__ . '/../..' . '/src/Testing/testing.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
             'TicTacToe\\' => 10,
-            'Tests\\' => 6,
+        ),
+        'P' => 
+        array (
+            'PhAnsi\\' => 7,
         ),
     );
 
@@ -19,9 +27,9 @@ class ComposerStaticInit1239a1f3e68760cd79129bd5c15e4482
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'Tests\\' => 
+        'PhAnsi\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/tests',
+            0 => __DIR__ . '/..' . '/shawnmccool/phansi/src',
         ),
     );
 

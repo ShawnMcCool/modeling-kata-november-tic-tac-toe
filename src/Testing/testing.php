@@ -1,11 +1,17 @@
 <?php
+namespace TicTacToe\Testing;
 
-use TicTacToe\Testing\InvalidAssertion;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use Throwable;
 
-require 'vendor/autoload.php';
+use function PhAnsi\bold;
+use function PhAnsi\green;
+use function PhAnsi\red;
 
-# The most incredibly naive and hardcoded testing framework ever made.
-
+/*
+ * The most incredibly naive and hardcoded testing framework ever made.
+ */
 function it(string $description, callable $test): void
 {
     $exceptions = [];
@@ -18,7 +24,7 @@ function it(string $description, callable $test): void
 
     if (empty($exceptions)) {
         $filename = basename(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[0]['file']);
-        echo test_description_display($filename, $description);
+        echo test_description_display($filename, $description, true);
         return;
     }
 
@@ -35,7 +41,7 @@ function it(string $description, callable $test): void
 
             // which file, which test
             $testFile = basename(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[0]['file']);
-            echo test_description_display($testFile, $description);
+            echo test_description_display($testFile, $description, false);
 
             // display the exception
             echo exception_display(
@@ -100,9 +106,34 @@ function expectFalse(bool $expected)
 
 function test_description_display(
     string $filename,
-    string $description
+    string $description,
+    bool $succeeded
 ): string {
-    return "$filename :: it {$description}\n";
+    $humanName = test_class_name_to_human_name($filename);
+
+    return $succeeded
+        ? bold(green($humanName)) . " $description.\n"
+        : bold(red($humanName)) . " $description.\n";
+}
+
+function test_class_name_to_human_name(string $filename): string
+{
+    $humanName = str_replace('_tests.php', '', $filename);
+    $humanNameWordArray = preg_split("/(?=[A-Z])/", $humanName);
+
+    if (empty($humanNameWordArray[0])) {
+        array_shift($humanNameWordArray);
+    }
+
+    return implode('', $humanNameWordArray);
+}
+
+function dd(...$args): void
+{
+    foreach ($args as $arg) {
+        var_dump($arg);
+    }
+    die();
 }
 
 function exception_display(
@@ -113,5 +144,22 @@ function exception_display(
     string $exceptionMessage
 ): string {
     return str_pad('', strlen($testFile) + 4, ' ', STR_PAD_LEFT)
-        . "$exceptionThrowInFile : $thrownInFileLineNumber - $exceptionClass - $exceptionMessage\n";
+        . bold($exceptionThrowInFile . ":$thrownInFileLineNumber") . " - $exceptionClass(" . bold($exceptionMessage) . ")\n";
+}
+
+function find_in_path(
+    string $path,
+    string $suffix,
+): array {
+    $directoryIterator = new RecursiveDirectoryIterator($path);
+    $iterator = new RecursiveIteratorIterator($directoryIterator);
+    $files = [];
+
+    foreach ($iterator as $file) {
+        if ($file->isFile() && str_ends_with($file, $suffix)) {
+            $files[] = $file->getPathname();
+        }
+    }
+
+    return $files;
 }

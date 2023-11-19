@@ -1,24 +1,9 @@
 <?php
 
-require 'src/Testing/test_bootstrap.php';
+require 'vendor/autoload.php';
 
-function findInPath(
-    string $path,
-    string $suffix,
-): array {
-    $directoryIterator = new RecursiveDirectoryIterator($path);
-    $iterator = new RecursiveIteratorIterator($directoryIterator);
-    $files = [];
+$testFiles = TicTacToe\Testing\find_in_path('src', '_tests.php');
 
-    foreach ($iterator as $file) {
-        if ($file->isFile() && str_ends_with($file, $suffix)) {
-            $files[] = $file->getPathname();
-        }
-    }
-
-    return $files;
-}
-
-foreach (findInPath('src', '_tests.php') as $testFile) {
+foreach ($testFiles as $testFile) {
     require($testFile);
 }

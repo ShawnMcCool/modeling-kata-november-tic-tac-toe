@@ -1,34 +1,44 @@
-<?php
-namespace TicTacToe;
+<?php namespace TicTacToe;
 
 final class TurnOrder
 {
     private function __construct(
-        private PlayerNumber $currentPlayer
+        private readonly Players $players,
+        private int $currentPlayer,
     ) {
     }
 
-    public static function selectedRandomlyAtStart(): self
-    {
+    public static function selectFirstPlayerRandomly(
+        Players $players
+    ): self {
         return new self(
-            PlayerNumber::fromInt(random_int(1, 2))
+            $players,
+            random_int(0, 1),
         );
+    }
+    
+    public function currentPlayerIs(PlayerName $player): bool
+    {
+        return $this->currentPlayer()->equals($player);
+    }
+
+    public function currentPlayer(): PlayerName
+    {
+        return $this->players->withIndex($this->currentPlayer);
+    }
+
+    public function nextPlayer(): PlayerName
+    {
+        return $this->players->withIndex($this->nextPlayerIndex());
     }
 
     public function endTurn(): void
     {
-        $this->currentPlayer = $this->nextPlayer();
-    }
-    
-    public function currentPlayer(): PlayerNumber
-    {
-        return $this->currentPlayer;
+        $this->currentPlayer = $this->nextPlayerIndex();
     }
 
-    public function nextPlayer(): PlayerNumber
+    private function nextPlayerIndex(): int
     {
-        return $this->currentPlayer->isFirst()
-            ? PlayerNumber::second()
-            : PlayerNumber::first();
+        return ($this->currentPlayer + 1) % 2;
     }
 }

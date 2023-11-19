@@ -1,8 +1,4 @@
-<?php
-
-namespace TicTacToe;
-
-use InvalidArgumentException;
+<?php namespace TicTacToe;
 
 final readonly class Players
 {
@@ -16,7 +12,7 @@ final readonly class Players
         string $secondPlayerName,
     ): self {
         if ($firstPlayerName == $secondPlayerName) {
-            throw new InvalidArgumentException("Player names must be unique. Sorry.");
+            throw InvalidPlayers::playerNamesMustBeUnique();
         }
 
         return new self([
@@ -25,13 +21,8 @@ final readonly class Players
         ]);
     }
 
-    public function nameFor(PlayerNumber $playerNumber): string
+    public function withIndex(int $playerIndex): PlayerName
     {
-        return $this->playerNames[$playerNumber->toInt()]->toString();
-    }
-
-    public function markFor(PlayerNumber $playerNumber): string
-    {
-        return $playerNumber->isFirst() ? 'X' : 'O';
+        return $this->playerNames[$playerIndex];
     }
 }

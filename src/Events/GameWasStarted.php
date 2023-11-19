@@ -1,14 +1,14 @@
-<?php
-namespace TicTacToe\Events;
+<?php namespace TicTacToe\Events;
 
+use TicTacToe\PlayerName;
 
 final readonly class GameWasStarted
 {
     public function __construct(
-        public string $firstPlayerName,
+        public PlayerName $firstPlayer,
         public string $firstPlayerMark,
-        public string $secondPlayerName,
+        public PlayerName $secondPlayer,
         public string $secondPlayerMark,
-    ) {}
-    
+    ) {
+    }
 }

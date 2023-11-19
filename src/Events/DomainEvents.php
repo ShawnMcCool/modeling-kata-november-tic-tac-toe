@@ -1,4 +1,4 @@
-<?php namespace TicTacToe;
+<?php namespace TicTacToe\Events;
 
 final class DomainEvents
 {
@@ -14,5 +14,12 @@ final class DomainEvents
     public function record($event): void
     {
         $this->events[] = $event;
+    }
+
+    public function flush(): array
+    {
+        $eventsToFlush = $this->events;
+        $this->events = [];
+        return $eventsToFlush;
     }
 }

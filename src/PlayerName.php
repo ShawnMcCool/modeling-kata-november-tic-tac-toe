@@ -12,6 +12,11 @@ final readonly class PlayerName
         return new self($name);
     }
 
+    public function equals(self $that): bool
+    {
+        return $this->name == $that->name;
+    }
+    
     public function toString(): string
     {
         return $this->name;
