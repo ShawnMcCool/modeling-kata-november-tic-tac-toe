@@ -1,7 +1,4 @@
-<?php namespace TicTacToe\Events;
-
-use function TicTacToe\Testing\expectEqual;
-use function TicTacToe\Testing\it;
+<?php namespace TicTacToe\Messaging;
 
 it('flushes all recorded events at once', function() {
     

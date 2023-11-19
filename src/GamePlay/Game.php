@@ -1,10 +1,10 @@
-<?php namespace TicTacToe;
+<?php namespace TicTacToe\GamePlay;
 
-use TicTacToe\Events\DomainEvents;
-use TicTacToe\Events\GameEndedInATie;
-use TicTacToe\Events\GameWasStarted;
-use TicTacToe\Events\MarkWasPlaced;
-use TicTacToe\Events\PlayerWonTheGame;
+use TicTacToe\Messaging\DomainEvents;
+use TicTacToe\GamePlay\Events\GameEndedInATie;
+use TicTacToe\GamePlay\Events\GameWasStarted;
+use TicTacToe\GamePlay\Events\MarkWasPlaced;
+use TicTacToe\GamePlay\Events\PlayerWonTheGame;
 
 final class Game
 {
@@ -54,9 +54,7 @@ final class Game
 
         $this->matrix->placeMark($markPosition, $player);
         $this->events->record(
-            new MarkWasPlaced(
-                $player, $markPosition
-            )
+            new MarkWasPlaced($player, $markPosition)
         );
 
         $winningPlayer = $this->matrix->winningPlayer();

@@ -1,10 +1,4 @@
-<?php
-
-namespace TicTacToe;
-
-use function TicTacToe\Testing\expectFalse;
-use function TicTacToe\Testing\expectTrue;
-use function TicTacToe\Testing\it;
+<?php namespace TicTacToe\GamePlay;
 
 it('determines if the mark was made by a specific player', function () {
     

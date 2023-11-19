@@ -1,14 +1,9 @@
-<?php namespace TicTacToe;
+<?php namespace TicTacToe\GamePlay;
 
-use TicTacToe\Events\GameEndedInATie;
-use TicTacToe\Events\GameWasStarted;
-use TicTacToe\Events\MarkWasPlaced;
-use TicTacToe\Events\PlayerWonTheGame;
-
-use function TicTacToe\Testing\expectEqual;
-use function TicTacToe\Testing\expectException;
-use function TicTacToe\Testing\expectTrue;
-use function TicTacToe\Testing\it;
+use TicTacToe\GamePlay\Events\GameEndedInATie;
+use TicTacToe\GamePlay\Events\GameWasStarted;
+use TicTacToe\GamePlay\Events\MarkWasPlaced;
+use TicTacToe\GamePlay\Events\PlayerWonTheGame;
 
 it('can be started', function () {
     $game = Game::start(

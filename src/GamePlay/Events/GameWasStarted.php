@@ -1,6 +1,6 @@
-<?php namespace TicTacToe\Events;
+<?php namespace TicTacToe\GamePlay\Events;
 
-use TicTacToe\PlayerName;
+use TicTacToe\GamePlay\PlayerName;
 
 final readonly class GameWasStarted
 {
@@ -9,6 +9,5 @@ final readonly class GameWasStarted
         public string $firstPlayerMark,
         public PlayerName $secondPlayer,
         public string $secondPlayerMark,
-    ) {
-    }
+    ) {}
 }

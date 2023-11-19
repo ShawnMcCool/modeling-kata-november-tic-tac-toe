@@ -1,4 +1,4 @@
-<?php namespace TicTacToe\Events;
+<?php namespace TicTacToe\GamePlay\Events;
 
 final class GameEndedInATie
 {

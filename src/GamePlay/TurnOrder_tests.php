@@ -1,9 +1,4 @@
-<?php
-
-namespace TicTacToe;
-
-use function TicTacToe\Testing\expectTrue;
-use function TicTacToe\Testing\it;
+<?php namespace TicTacToe\GamePlay;
 
 it('determines if the specified player is the current player', function () {
     $turnOrder = TurnOrder::selectFirstPlayerRandomly(

@@ -1,9 +1,6 @@
 <?php
-namespace TicTacToe\Testing;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use Throwable;
+use TicTacToe\Testing\InvalidAssertion;
 
 use function PhAnsi\bold;
 use function PhAnsi\green;

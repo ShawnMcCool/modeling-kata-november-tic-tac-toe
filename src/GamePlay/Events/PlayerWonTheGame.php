@@ -1,6 +1,6 @@
-<?php namespace TicTacToe\Events;
+<?php namespace TicTacToe\GamePlay\Events;
 
-use TicTacToe\PlayerName;
+use TicTacToe\GamePlay\PlayerName;
 
 final readonly class PlayerWonTheGame
 {

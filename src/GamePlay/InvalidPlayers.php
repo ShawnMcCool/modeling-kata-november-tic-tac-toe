@@ -1,4 +1,4 @@
-<?php namespace TicTacToe;
+<?php namespace TicTacToe\GamePlay;
 
 use InvalidArgumentException;
 

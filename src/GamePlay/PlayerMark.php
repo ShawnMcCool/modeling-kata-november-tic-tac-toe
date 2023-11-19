@@ -1,4 +1,4 @@
-<?php namespace TicTacToe;
+<?php namespace TicTacToe\GamePlay;
 
 final readonly class PlayerMark
 {

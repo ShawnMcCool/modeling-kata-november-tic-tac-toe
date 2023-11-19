@@ -1,6 +1,4 @@
-<?php
-
-namespace TicTacToe;
+<?php namespace TicTacToe\GamePlay;
 
 final class Matrix
 {

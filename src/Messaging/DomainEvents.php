@@ -1,4 +1,4 @@
-<?php namespace TicTacToe\Events;
+<?php namespace TicTacToe\Messaging;
 
 final class DomainEvents
 {
