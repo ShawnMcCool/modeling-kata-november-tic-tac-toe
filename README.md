@@ -37,3 +37,4 @@ A design for the November 2023 modeling kata.
 
 
 - `php ./cli/watch-chatgpt-vs-chatgpt.php` to watch ChatGPT play against itself.
+- `php ./cli/watch-chatgpt-vs-skilled.php` to watch ChatGPT play against the skilled AI.

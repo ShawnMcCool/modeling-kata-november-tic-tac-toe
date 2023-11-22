@@ -20,7 +20,7 @@ final class SkilledAIPlayer implements EventListener
 
     public function __construct(
         private readonly Game $game,
-        private readonly PlayerName $humanPlayer,
+        private readonly PlayerName $otherPlayer,
         private readonly PlayerName $aiPlayer,
         private readonly EventDispatcher $dispatcher,
     ) {
@@ -153,7 +153,7 @@ final class SkilledAIPlayer implements EventListener
         /*
          * if they're going to win, choose that spot
          */
-        $potentiallyWinningSpot = $this->winningSpotFor($this->humanPlayer);
+        $potentiallyWinningSpot = $this->winningSpotFor($this->otherPlayer);
         if ($potentiallyWinningSpot) {
             echo cyan("AI: I'm blocking you.\n");
             $this->playerMarks[] = PlayerMark::atPosition(
@@ -424,6 +424,7 @@ final class SkilledAIPlayer implements EventListener
     private function randomRemainingPosition(): MarkPosition
     {
         shuffle($this->remainingMarkPositions);
+        $this->remainingMarkPositions = array_values($this->remainingMarkPositions);
         return array_shift($this->remainingMarkPositions);
     }
 
