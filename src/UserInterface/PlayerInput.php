@@ -17,6 +17,11 @@ final class PlayerInput
         );
     }
 
+    public static function chatGPTApiKey(): string
+    {
+        return implode(' ', self::read('(\S*)', "Your OpenAPI API Key:"));
+    }
+
     private static function read(
         string $pattern,
         string $prompt,

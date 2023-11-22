@@ -21,6 +21,7 @@
   "require": {
     "php": "^8.2",
     "shawnmccool/phansi": "^1.1",
-    "ext-readline": "*"
+    "ext-readline": "*",
+    "ext-curl": "*"
   }
 }
