@@ -6,10 +6,13 @@ use TicTacToe\ChatGPT\Response;
 use TicTacToe\GamePlay\Events\GameWasStarted;
 use TicTacToe\GamePlay\Events\MarkWasPlaced;
 use TicTacToe\GamePlay\Game;
+use TicTacToe\GamePlay\InvalidPlay;
 use TicTacToe\GamePlay\MarkPosition;
 use TicTacToe\GamePlay\PlayerName;
 use TicTacToe\Messaging\EventDispatcher;
 use TicTacToe\Messaging\EventListener;
+
+use UnexpectedValueException;
 
 use function PhAnsi\cyan;
 use function PhAnsi\erase_to_end_of_line;
@@ -39,7 +42,7 @@ final class ChatGPTAIPlayer implements EventListener
     private function gameWasStarted(GameWasStarted $event): void
     {
         $this->chatGPT->addContext(
-            'You are playing standard tic tac toe on a 3x3 matrix. Respond with x,y coordinates.'
+            'You are playing standard tic tac toe on a 3x3 matrix. The top left is 1,1 and the bottom right is 3,3.'
         );
 
         if ($event->firstPlayer->equals($this->aiPlayer)) {
@@ -92,20 +95,24 @@ final class ChatGPTAIPlayer implements EventListener
 
     private function placeMark(string $message): void
     {
-        echo yellow('AI is thinking...');
-        
-        $response = $this->chatGPT->say($message);
-        
-        move_cursor_backward(30);
+        echo yellow('Waiting for GPT...');
+
+        $response = $this->responseFromGPT($message);
+
+        move_cursor_backward(100);
         erase_to_end_of_line();
         
-        $this->game->placeMark(
-            $this->aiPlayer,
-            $this->markFromResponse(
-                $response
-            )
-        );
-
+        try {
+            $this->game->placeMark(
+                $this->aiPlayer,
+                $this->markFromResponse(
+                    $response
+                )
+            );
+        } catch (InvalidPlay) {
+            $this->retryAfterInvalidPlay();
+        }
+        
         $this->dispatcher->dispatchEvents(
             $this->game->flushEvents()
         );
@@ -115,5 +122,37 @@ final class ChatGPTAIPlayer implements EventListener
     {
         echo cyan('Chat GPT Transcript') . "\n";
         echo json_encode($this->chatGPT->transcript()->toApi(), JSON_PRETTY_PRINT);
+    }
+    
+    private function retryAfterInvalidPlay(): void
+    {
+        echo red("The AI tried to make an invalid play... It's trying again...");
+        
+        $response = $this->chatGPT->say("Your last move was invalid. You tried to play where a mark was already made. Try again.");
+        
+        move_cursor_backward(100);
+        erase_to_end_of_line();
+
+
+        $this->game->placeMark(
+            $this->aiPlayer,
+            $this->markFromResponse(
+                $response
+            )
+        );
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    private function responseFromGPT(string $message): Response
+    {
+        try {
+            $response = $this->chatGPT->say($message);
+        } catch (UnexpectedValueException $t) {
+            $response = $this->chatGPT->say("Try that last move again.");
+        }
+        return $response;
     }
 }

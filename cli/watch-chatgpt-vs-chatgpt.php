@@ -16,10 +16,13 @@ require 'vendor/autoload.php';
 $dispatcher = new EventDispatcher;
 $dispatcher->subscribe(new RenderPlayerFeedback());
 
+$playerOneName = "GPT ONE";
+$playerTwoName = "GPT TWO";
+
 $game = Game::start(
     Players::named(
-        "ChatGPT One",
-        "ChatGPT Two",
+        $playerOneName,
+        $playerTwoName,
     )
 );
 
@@ -32,7 +35,7 @@ $dispatcher->subscribe(
             file_get_contents('.chatgpt_apikey'),
             $messagesOne,
         ),
-        PlayerName::fromString("ChatGPT One"),
+        PlayerName::fromString($playerOneName),
         $dispatcher,
     )
 );
@@ -46,7 +49,7 @@ $dispatcher->subscribe(
             file_get_contents('.chatgpt_apikey'),
             $messagesTwo,
         ),
-        PlayerName::fromString("ChatGPT Two"),
+        PlayerName::fromString($playerTwoName),
         $dispatcher,
     )
 );
