@@ -223,6 +223,10 @@ it('can result in a tie', function () {
         Players::named(1, 2)
     );
 
+    expectFalse(
+        $game->isOver()
+    );
+        
     /** @var GameWasStarted $startEvent */
     $startEvent = $game->flushEvents()[0];
 
@@ -280,5 +284,9 @@ it('can result in a tie', function () {
     
     expectTrue(
         ! empty($tieEvents)
+    );
+    
+    expectTrue(
+        $game->isOver()
     );
 });

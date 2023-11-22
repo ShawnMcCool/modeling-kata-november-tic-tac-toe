@@ -82,4 +82,9 @@ final class Game
     {
         return $this->events->flush();
     }
+
+    public function isOver(): bool
+    {
+        return $this->gameIsOver;
+    }
 }
