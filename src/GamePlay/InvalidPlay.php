@@ -25,7 +25,7 @@ final class InvalidPlay extends DomainException
         MarkPosition $markPosition
     ): self {
         return new self(
-            "It looks like {$player->toString()} tried to play at position {$markPosition->x()}, {$markPosition->y()} but that spot was already taken." 
+            "It looks like {$player->toString()} tried to play at position {$markPosition->x()},{$markPosition->y()} but that spot was already taken." 
         );
     }
 }

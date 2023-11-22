@@ -12,7 +12,10 @@ use TicTacToe\Messaging\EventDispatcher;
 use TicTacToe\Messaging\EventListener;
 
 use function PhAnsi\cyan;
+use function PhAnsi\erase_to_end_of_line;
+use function PhAnsi\move_cursor_backward;
 use function PhAnsi\red;
+use function PhAnsi\yellow;
 
 final class ChatGPTAIPlayer implements EventListener
 {
@@ -36,7 +39,7 @@ final class ChatGPTAIPlayer implements EventListener
     private function gameWasStarted(GameWasStarted $event): void
     {
         $this->chatGPT->addContext(
-            'You are playing standard tic tac toe on a 3x3 matrix. Respond in 2d coordinates with row first then column.'
+            'You are playing standard tic tac toe on a 3x3 matrix. Respond with x,y coordinates.'
         );
 
         if ($event->firstPlayer->equals($this->aiPlayer)) {
@@ -60,8 +63,7 @@ final class ChatGPTAIPlayer implements EventListener
             );
         } catch (Throwable $t) {
             echo red('Oopsie...') . " {$t->getMessage()}.\n";
-            echo cyan('Chat GPT Transcript') . "\n";
-            echo json_encode($this->chatGPT->transcript()->toApi(), JSON_PRETTY_PRINT);
+            $this->outputTranscript();
             die();
         }
     }
@@ -90,15 +92,28 @@ final class ChatGPTAIPlayer implements EventListener
 
     private function placeMark(string $message): void
     {
+        echo yellow('AI is thinking...');
+        
+        $response = $this->chatGPT->say($message);
+        
+        move_cursor_backward(30);
+        erase_to_end_of_line();
+        
         $this->game->placeMark(
             $this->aiPlayer,
             $this->markFromResponse(
-                $this->chatGPT->say($message)
+                $response
             )
         );
 
         $this->dispatcher->dispatchEvents(
             $this->game->flushEvents()
         );
+    }
+    
+    private function outputTranscript(): void
+    {
+        echo cyan('Chat GPT Transcript') . "\n";
+        echo json_encode($this->chatGPT->transcript()->toApi(), JSON_PRETTY_PRINT);
     }
 }

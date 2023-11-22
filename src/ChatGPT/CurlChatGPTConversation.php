@@ -1,5 +1,9 @@
 <?php namespace TicTacToe\ChatGPT;
 
+use Throwable;
+
+use function PhAnsi\red;
+
 final readonly class CurlChatGPTConversation implements ChatGPTConversation
 {
     public function __construct(
@@ -43,9 +47,9 @@ final readonly class CurlChatGPTConversation implements ChatGPTConversation
         $response = curl_exec($ch);
         
         curl_close($ch);
-
+    
         $response = Response::fromApi($response);
-        
+    
         $this->messages->addAssistant($response->message());
         
         return $response;

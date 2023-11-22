@@ -1,6 +1,4 @@
-<?php
-
-namespace TicTacToe\UserInterface;
+<?php namespace TicTacToe\UserInterface;
 
 use PhAnsi\Decoration\TextTable;
 use TicTacToe\GamePlay\Events\GameEndedInATie;
@@ -11,7 +9,9 @@ use TicTacToe\GamePlay\MarkPosition;
 use TicTacToe\GamePlay\PlayerName;
 use TicTacToe\Messaging\EventListener;
 
+use function PhAnsi\brightWhite;
 use function PhAnsi\green;
+use function PhAnsi\magenta;
 use function PhAnsi\red;
 
 final class RenderPlayerFeedback implements EventListener
@@ -46,8 +46,16 @@ final class RenderPlayerFeedback implements EventListener
 
         $this->drawBoard();
 
-        echo "{$event->firstPlayer->toString()} is the first player and is placing '$event->firstPlayerMark'.\n";
-        echo "{$event->secondPlayer->toString()} is the second player and is placing '$event->secondPlayerMark'.\n";
+        $this->colorByMark(
+            $event->firstPlayer,
+            "{$event->firstPlayer->toString()} is the first player and is placing '$event->firstPlayerMark'.\n"
+        );
+        
+        $this->colorByMark(
+            $event->secondPlayer,
+            "{$event->secondPlayer->toString()} is the second player and is placing '$event->secondPlayerMark'.\n"
+        );
+
         echo "\n";
     }
 
@@ -59,12 +67,21 @@ final class RenderPlayerFeedback implements EventListener
         );
 
         $this->drawBoard();
-        echo "{$event->playerName->toString()} has placed an {$this->playerMarks[$event->playerName->toString()]} at {$event->markPosition->x()},{$event->markPosition->y()}.\n\n";
+        
+        echo $this->colorByMark(
+            $event->playerName,
+            "{$event->playerName->toString()} has placed an {$this->playerMarks[$event->playerName->toString()]} at {$event->markPosition->x()},{$event->markPosition->y()}.\n\n"
+        );
     }
 
     private function playerWonTheGame(PlayerWonTheGame $event): void
     {
-        echo green("Congratulations!") . " {$event->playerName->toString()} has won the game!\n\n";
+        $winningPlayer = $this->colorByMark(
+            $event->playerName,
+            $event->playerName->toString()
+        );
+        
+        echo green("Congratulations!") . " $winningPlayer has won the game!\n\n";
     }
 
     private function gameEndedInATie(GameEndedInATie $event): void
@@ -76,7 +93,7 @@ final class RenderPlayerFeedback implements EventListener
     {
         echo "\n"
             . TextTable::make()
-                ->withTitle("Tic Tac Toe")
+                ->withTitle(brightWhite("Tic Tac Toe"))
                 ->withHeaders('', 1, 2, 3)
                 ->withRows($this->board)
                 ->toString();
@@ -86,6 +103,20 @@ final class RenderPlayerFeedback implements EventListener
         PlayerName $player,
         MarkPosition $position
     ): void {
-        $this->board[$position->y() - 1][$position->x()] = $this->playerMarks[$player->toString()];
+        $mark = $this->playerMarks[$player->toString()];
+
+        $this->board[$position->y() - 1][$position->x()] = $this->colorByMark($player, $mark);
+    }
+
+    private function colorByMark(
+        PlayerName $player,
+        string $message
+    ): string {
+        $mark = $this->playerMarks[$player->toString()];
+
+        return match ($mark) {
+            'X' => green($message),
+            'O' => magenta($message),
+        };
     }
 }
