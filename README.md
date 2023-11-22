@@ -20,3 +20,9 @@ A design for the November 2023 modeling kata.
 - Player order is randomized on game start.
 - First mark played is always X.
 - Event dispatch is sequential, so no concern for messages out of order or duplicated.
+
+## Behaviors
+
+`php ./cli/test.php` to run tests.  
+
+`php ./cli/play.php` to play an interactive 2 player game.
