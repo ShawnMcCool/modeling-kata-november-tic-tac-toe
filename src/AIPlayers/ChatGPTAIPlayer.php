@@ -1,14 +1,10 @@
-<?php
-
-namespace TicTacToe\AIPlayers;
+<?php namespace TicTacToe\AIPlayers;
 
 use Throwable;
 use TicTacToe\ChatGPT\ChatGPTConversation;
 use TicTacToe\ChatGPT\Response;
-use TicTacToe\GamePlay\Events\GameEndedInATie;
 use TicTacToe\GamePlay\Events\GameWasStarted;
 use TicTacToe\GamePlay\Events\MarkWasPlaced;
-use TicTacToe\GamePlay\Events\PlayerWonTheGame;
 use TicTacToe\GamePlay\Game;
 use TicTacToe\GamePlay\MarkPosition;
 use TicTacToe\GamePlay\PlayerName;
@@ -18,10 +14,8 @@ use TicTacToe\Messaging\EventListener;
 use function PhAnsi\cyan;
 use function PhAnsi\red;
 
-final class ChatGPTPlayer implements EventListener
+final class ChatGPTAIPlayer implements EventListener
 {
-    private readonly PlayerName $humanPlayer;
-
     public function __construct(
         private readonly Game $game,
         private readonly ChatGPTConversation $chatGPT,
@@ -32,12 +26,11 @@ final class ChatGPTPlayer implements EventListener
 
     public function handle($event): void
     {
-        match ($event::class) {
-            GameWasStarted::class => $this->gameWasStarted($event),
-            MarkWasPlaced::class => $this->markWasPlaced($event),
-            PlayerWonTheGame::class => $this->playerWonTheGame($event),
-            GameEndedInATie::class => $this->gameEndedInATie($event),
-        };
+        if ($event instanceof GameWasStarted) {
+            $this->gameWasStarted($event);
+        } elseif ($event instanceof MarkWasPlaced) {
+            $this->markWasPlaced($event);
+        }
     }
 
     private function gameWasStarted(GameWasStarted $event): void
@@ -47,16 +40,7 @@ final class ChatGPTPlayer implements EventListener
         );
 
         if ($event->firstPlayer->equals($this->aiPlayer)) {
-            $this->game->placeMark(
-                $this->aiPlayer,
-                $this->markFromResponse(
-                    $this->chatGPT->say('You are going first, where do you place your mark?')
-                )
-            );
-            
-            $this->dispatcher->dispatchEvents(
-                $this->game->flushEvents()
-            );
+            $this->placeMark('You are going first, where do you place your mark?');
         }
     }
 
@@ -71,17 +55,8 @@ final class ChatGPTPlayer implements EventListener
         }
 
         try {
-            $this->game->placeMark(
-                $this->aiPlayer,
-                $this->markFromResponse(
-                    $this->chatGPT->say(
-                        "I played in the position {$event->markPosition->x()},{$event->markPosition->y()}. It's your turn, where do you play?."
-                    )
-                )
-            );
-
-            $this->dispatcher->dispatchEvents(
-                $this->game->flushEvents()
+            $this->placeMark(
+                "I played in the position {$event->markPosition->x()},{$event->markPosition->y()}. It's your turn, where do you play?."
             );
         } catch (Throwable $t) {
             echo red('Oopsie...') . " {$t->getMessage()}.\n";
@@ -89,14 +64,6 @@ final class ChatGPTPlayer implements EventListener
             echo json_encode($this->chatGPT->transcript()->toApi(), JSON_PRETTY_PRINT);
             die();
         }
-    }
-
-    private function playerWonTheGame(PlayerWonTheGame $event): void
-    {
-    }
-
-    private function gameEndedInATie(GameEndedInATie $event): void
-    {
     }
 
     private function markFromResponse(Response $response): MarkPosition
@@ -115,5 +82,19 @@ final class ChatGPTPlayer implements EventListener
         }
 
         return array_slice($matches, 1);
+    }
+
+    private function placeMark(string $message): void
+    {
+        $this->game->placeMark(
+            $this->aiPlayer,
+            $this->markFromResponse(
+                $this->chatGPT->say($message)
+            )
+        );
+
+        $this->dispatcher->dispatchEvents(
+            $this->game->flushEvents()
+        );
     }
 }

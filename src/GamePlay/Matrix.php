@@ -4,8 +4,9 @@ final class Matrix
 {
     private function __construct(
         private array $playerMarks,
-    ) {}
-    
+    ) {
+    }
+
 
     public static function empty(): self
     {
@@ -84,14 +85,14 @@ final class Matrix
         $marks = array_filter(
             $this->playerMarks,
             fn (PlayerMark $playerMark) => $playerMark->isAtPosition(MarkPosition::fromCoordinates(1, 1))
-            || $playerMark->isAtPosition(MarkPosition::fromCoordinates(2, 2))
-            || $playerMark->isAtPosition(MarkPosition::fromCoordinates(3, 3))
+                || $playerMark->isAtPosition(MarkPosition::fromCoordinates(2, 2))
+                || $playerMark->isAtPosition(MarkPosition::fromCoordinates(3, 3))
         );
 
         if ($this->isAWinningSet($marks)) {
-            return $marks[0]->player();
+            return current($marks)->player();
         }
-        
+
         /*
          * Test upper-right to lower-left
          */
@@ -99,8 +100,8 @@ final class Matrix
         $marks = array_filter(
             $this->playerMarks,
             fn (PlayerMark $playerMark) => $playerMark->isAtPosition(MarkPosition::fromCoordinates(3, 1))
-            || $playerMark->isAtPosition(MarkPosition::fromCoordinates(2, 2))
-            || $playerMark->isAtPosition(MarkPosition::fromCoordinates(1, 3))
+                || $playerMark->isAtPosition(MarkPosition::fromCoordinates(2, 2))
+                || $playerMark->isAtPosition(MarkPosition::fromCoordinates(1, 3))
         );
 
         if ($this->isAWinningSet($marks)) {
@@ -125,7 +126,7 @@ final class Matrix
     private function allThreeMarksWereMadeByTheSamePlayer(array $marks): bool
     {
         $marks = array_values($marks);
-        
+
         return $marks[0]->player()->equals($marks[1]->player())
             && $marks[0]->player()->equals($marks[2]->player());
     }

@@ -64,7 +64,6 @@ final class RenderPlayerFeedback implements EventListener
 
     private function playerWonTheGame(PlayerWonTheGame $event): void
     {
-        echo "\n";
         echo green("Congratulations!") . " {$event->playerName->toString()} has won the game!\n\n";
     }
 

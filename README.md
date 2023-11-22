@@ -32,3 +32,5 @@ A design for the November 2023 modeling kata.
 `php ./cli/chatgpt-test.php` to test ChatGPT integration.  
 
 `php ./cli/play-against-ai.php` to play against ChatGPT.
+
+`php ./cli/play-against-rando.php` to play against Rando.
