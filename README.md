@@ -19,3 +19,4 @@ A design for the November 2023 modeling kata.
 - Player names are unique identifiers. I don't want to properly deal with identity.
 - Player order is randomized on game start.
 - First mark played is always X.
+- Event dispatch is sequential, so no concern for messages out of order or duplicated.

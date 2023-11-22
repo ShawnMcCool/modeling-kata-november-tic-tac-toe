@@ -6,10 +6,12 @@ use TicTacToe\GamePlay\PlayerName;
 use TicTacToe\GamePlay\Players;
 use TicTacToe\Messaging\EventDispatcher;
 use TicTacToe\UserInterface\PlayerInput;
+use TicTacToe\UserInterface\RenderPlayerFeedback;
 
 require 'vendor/autoload.php';
 
 $dispatcher = new EventDispatcher;
+$dispatcher->subscribe(new RenderPlayerFeedback());
 
 [$playerOneName, $playerTwoName] = PlayerInput::playerNames();
     

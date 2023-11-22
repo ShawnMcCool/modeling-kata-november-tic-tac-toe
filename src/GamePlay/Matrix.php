@@ -51,7 +51,7 @@ final class Matrix
             );
 
             if ($this->isAWinningSet($marksOnRow)) {
-                return $marksOnRow[0]->player();
+                return current($marksOnRow)->player();
             }
         }
 

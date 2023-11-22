@@ -2,7 +2,7 @@
 
 A light-weight self-contained PHP Ansi implementation.
 
-This is being spiked.
+Feel free to use it as an ANSI reference or import it into your project if you like the interface.
 
 ## Examples
 

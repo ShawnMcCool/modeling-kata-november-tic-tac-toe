@@ -1,29 +1,29 @@
 <?php
 
-use function PhAnsi\red;
-use function PhAnsi\cyan;
-use function PhAnsi\blue;
-use function PhAnsi\bold;
+use function PhAnsi\bgBlack;
+use function PhAnsi\bgBlue;
+use function PhAnsi\bgCyan;
+use function PhAnsi\bgGreen;
+use function PhAnsi\bgMagenta;
 use function PhAnsi\bgRed;
-use function PhAnsi\white;
-use function PhAnsi\green;
+use function PhAnsi\bgWhite;
+use function PhAnsi\bgYellow;
 use function PhAnsi\black;
 use function PhAnsi\blink;
-use function PhAnsi\bgCyan;
-use function PhAnsi\bgBlue;
-use function PhAnsi\yellow;
-use function PhAnsi\hidden;
-use function PhAnsi\italic;
-use function PhAnsi\bgWhite;
-use function PhAnsi\bgGreen;
-use function PhAnsi\bgBlack;
-use function PhAnsi\magenta;
-use function PhAnsi\inverse;
-use function PhAnsi\bgYellow;
-use function PhAnsi\bgMagenta;
-use function PhAnsi\underline;
-use function PhAnsi\brightWhite;
+use function PhAnsi\blue;
+use function PhAnsi\bold;
 use function PhAnsi\brightBlack;
+use function PhAnsi\brightWhite;
+use function PhAnsi\cyan;
+use function PhAnsi\green;
+use function PhAnsi\hidden;
+use function PhAnsi\inverse;
+use function PhAnsi\italic;
+use function PhAnsi\magenta;
+use function PhAnsi\red;
+use function PhAnsi\underline;
+use function PhAnsi\white;
+use function PhAnsi\yellow;
 
 include 'vendor/autoload.php';
 

@@ -20,7 +20,7 @@
   },
   "require": {
     "php": "^8.2",
-    "shawnmccool/phansi": "^0.0.1",
+    "shawnmccool/phansi": "^1.1",
     "ext-readline": "*"
   }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use function PhAnsi\terminal_width;
-use function PhAnsi\terminal_height;
 use function PhAnsi\terminal_cursor_position;
+use function PhAnsi\terminal_height;
+use function PhAnsi\terminal_width;
 
 require 'vendor/autoload.php';
 
