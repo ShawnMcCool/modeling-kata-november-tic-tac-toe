@@ -42,7 +42,7 @@ final class ChatGPTAIPlayer implements EventListener
     private function gameWasStarted(GameWasStarted $event): void
     {
         $this->chatGPT->addContext(
-            'You are playing standard tic tac toe on a 3x3 matrix. The top left is 1,1 and the bottom right is 3,3.'
+            'You are playing standard tic tac toe on a 3x3 matrix. The top left is 1,1 and the bottom right is 3,3. Play at the highest difficulty level.'
         );
 
         if ($event->firstPlayer->equals($this->aiPlayer)) {
