@@ -10,11 +10,10 @@ final class PlayerInput
         ];
     }
 
-    public static function humanAndAiPlayerNames(): array
+    public static function humanPlayerName(): array
     {
         return [
             implode(' ', self::read('(\S*)', "Human Player Name:")),
-            implode(' ', self::read('(\S*)', "AI Player Name:")),
         ];
     }
 

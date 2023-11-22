@@ -1,6 +1,5 @@
 <?php
 
-use TicTacToe\ChatGPT\CurlChatGPTConversation;
 use TicTacToe\ChatGPT\Messages;
 use TicTacToe\GamePlay\Game;
 use TicTacToe\GamePlay\MarkPosition;
@@ -10,7 +9,6 @@ use TicTacToe\Messaging\EventDispatcher;
 use TicTacToe\UserInterface\PlayerInput;
 use TicTacToe\UserInterface\RenderPlayerFeedback;
 
-use function PhAnsi\cyan;
 use function PhAnsi\red;
 
 require 'vendor/autoload.php';
@@ -24,20 +22,15 @@ echo "\n";
 $game = Game::start(
     Players::named(
         $humanName,
-        "ChatGPT",
+        "Random",
     )
 );
 
 $messages = new Messages();
 $dispatcher->subscribe(
-    new TicTacToe\AIPlayers\ChatGPTAIPlayer(
+    new TicTacToe\AIPlayers\RandomAIPlayer(
         $game,
-        new CurlChatGPTConversation(
-            'https://api.openai.com/v1/chat/completions',
-            file_get_contents('.chatgpt_apikey'),
-            $messages,
-        ),
-        PlayerName::fromString("ChatGPT"),
+        PlayerName::fromString("Random"),
         $dispatcher,
     )
 );
@@ -62,7 +55,3 @@ while ( ! $game->isOver()) {
         $game->flushEvents()
     );
 }
-
-echo cyan('Chat GPT Transcript') . "\n";
-echo json_encode($messages->toApi(), JSON_PRETTY_PRINT);
-echo "\n";

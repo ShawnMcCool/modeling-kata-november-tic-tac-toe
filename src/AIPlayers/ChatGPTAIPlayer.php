@@ -36,11 +36,11 @@ final class ChatGPTAIPlayer implements EventListener
     private function gameWasStarted(GameWasStarted $event): void
     {
         $this->chatGPT->addContext(
-            'You are playing tic tac toe. The game is played on a 3x3 matrix. The coordinate of the top left position is 1,1. The coordinate of the bottom right position is 3,3. Your responses should always be 2d coordinates separated by a comma.'
+            'You are playing standard tic tac toe on a 3x3 matrix. Respond in 2d coordinates with row first then column.'
         );
 
         if ($event->firstPlayer->equals($this->aiPlayer)) {
-            $this->placeMark('You are going first, where do you place your mark?');
+            $this->placeMark("It's your turn.");
         }
     }
 
@@ -56,7 +56,7 @@ final class ChatGPTAIPlayer implements EventListener
 
         try {
             $this->placeMark(
-                "I played in the position {$event->markPosition->x()},{$event->markPosition->y()}. It's your turn, where do you play?."
+                "I played at {$event->markPosition->x()},{$event->markPosition->y()}. It's your turn."
             );
         } catch (Throwable $t) {
             echo red('Oopsie...') . " {$t->getMessage()}.\n";
@@ -70,6 +70,10 @@ final class ChatGPTAIPlayer implements EventListener
     {
         [$x, $y] = $this->matchString('(\d)\s?,\s?(\d)', $response->message());
 
+        if (! $x || ! $y) {
+            echo red("Oopies..") . " Chat GPT didn't respond with anything useful.";
+            die();
+        }
         return MarkPosition::fromCoordinates($x, $y);
     }
 

@@ -57,7 +57,7 @@ final readonly class CurlChatGPTConversation implements ChatGPTConversation
             'model' => 'gpt-3.5-turbo',
             'messages' => $this->messages->toApi(),
             'temperature' => 0.7,
-            'max_tokens' => 100,
+            'max_tokens' => 25,
         ]);
     }
 }

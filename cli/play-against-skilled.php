@@ -17,20 +17,21 @@ $dispatcher = new EventDispatcher;
 $dispatcher->subscribe(new RenderPlayerFeedback());
 
 echo "\n";
-[$humanName, $aiName] = PlayerInput::humanAndAiPlayerNames();
+[$humanName] = PlayerInput::humanPlayerName();
 
 $game = Game::start(
     Players::named(
         $humanName,
-        $aiName,
+        "Skilled",
     )
 );
 
 $messages = new Messages();
 $dispatcher->subscribe(
-    new TicTacToe\AIPlayers\RandomAIPlayer(
+    new TicTacToe\AIPlayers\SkilledAIPlayer(
         $game,
-        PlayerName::fromString($aiName),
+        PlayerName::fromString($humanName),
+        PlayerName::fromString("Skilled"),
         $dispatcher,
     )
 );

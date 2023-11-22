@@ -34,4 +34,9 @@ final readonly class PlayerMark
     {
         return $this->player;
     }
+
+    public function position(): MarkPosition
+    {
+        return $this->markPosition;
+    }
 }
