@@ -24,9 +24,11 @@ A design for the November 2023 modeling kata.
 ## Behaviors
 
 - `php ./cli/test.php` to run tests.  
-- `php ./cli/play-against-human.php` to play an interactive 2 player game.  
+
 - `php ./cli/chatgpt-setup.php` to set up ChatGPT integration.  
 - `php ./cli/chatgpt-test.php` to test ChatGPT integration.  
-- `php ./cli/play-against-ai.php` to play against ChatGPT.
+
+- `php ./cli/play-against-human.php` to play an interactive 2 player game.  
 - `php ./cli/play-against-random.php` to play against random AI.
+- `php ./cli/play-against-chatgpt.php` to play against ChatGPT.
 - `php ./cli/play-against-skilled.php` to play against skilled AI.
