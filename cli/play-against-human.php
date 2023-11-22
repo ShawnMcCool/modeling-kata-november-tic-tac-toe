@@ -8,12 +8,15 @@ use TicTacToe\Messaging\EventDispatcher;
 use TicTacToe\UserInterface\PlayerInput;
 use TicTacToe\UserInterface\RenderPlayerFeedback;
 
+use function PhAnsi\red;
+
 require 'vendor/autoload.php';
 
 $dispatcher = new EventDispatcher;
 $dispatcher->subscribe(new RenderPlayerFeedback());
 
-[$playerOneName, $playerTwoName] = PlayerInput::playerNames();
+echo "\n";
+[$playerOneName, $playerTwoName] = PlayerInput::humanPlayerNames();
     
 $game = Game::start(
     Players::named(
@@ -27,7 +30,7 @@ $dispatcher->dispatchEvents(
 );
 
 while ( ! $game->isOver()) {
-    [$name, $x, $y] = PlayerInput::playerMarkPlacementSelection();
+    [$name, $x, $y] = PlayerInput::versusHumanPlayerMarkPlacementSelection();
     
     try {
         $game->placeMark(
@@ -35,7 +38,7 @@ while ( ! $game->isOver()) {
             MarkPosition::fromCoordinates($x, $y)
         );
     } catch (Throwable $t) {
-        echo "Oopsie... {$t->getMessage()}.\n";
+        echo red('Oopsie...') . " {$t->getMessage()}.\n";
     }
     
     $dispatcher->dispatchEvents(

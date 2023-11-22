@@ -23,6 +23,6 @@ try {
     echo green($response->message());
     echo "\n";
 } catch (Throwable $t) {
-    echo red("Oopsie.. {$t->getMessage()}");
+    echo red("Oopsie... {$t->getMessage()}");
     echo "\n";
 }

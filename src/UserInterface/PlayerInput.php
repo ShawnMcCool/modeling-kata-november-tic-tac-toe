@@ -2,7 +2,7 @@
 
 final class PlayerInput
 {
-    public static function playerNames(): array
+    public static function humanPlayerNames(): array
     {
         return [
             implode(' ', self::read('(\S*)', "First Player Name:")),
@@ -10,10 +10,25 @@ final class PlayerInput
         ];
     }
 
-    public static function playerMarkPlacementSelection(): array
+    public static function humanAndAiPlayerNames(): array
+    {
+        return [
+            implode(' ', self::read('(\S*)', "Human Player Name:")),
+            implode(' ', self::read('(\S*)', "AI Player Name:")),
+        ];
+    }
+
+    public static function versusHumanPlayerMarkPlacementSelection(): array
     {
         return self::read(
             '(\S*) (\d)\s?,\s?(\d)', "Enter your move: [Format: Name 1,1]: " 
+        );
+    }
+
+    public static function versusAiPlayerMarkPlacementSelection(): array
+    {
+        return self::read(
+            '(\d)\s?,\s?(\d)', "Enter your move: [Format: 1,1]: " 
         );
     }
 

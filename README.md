@@ -25,4 +25,10 @@ A design for the November 2023 modeling kata.
 
 `php ./cli/test.php` to run tests.  
 
-`php ./cli/play.php` to play an interactive 2 player game.
+`php ./cli/play-against-human.php` to play an interactive 2 player game.  
+
+`php ./cli/chatgpt-setup.php` to set up ChatGPT integration.  
+
+`php ./cli/chatgpt-test.php` to test ChatGPT integration.  
+
+`php ./cli/play-against-ai.php` to play against ChatGPT.

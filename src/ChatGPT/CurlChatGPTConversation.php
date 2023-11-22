@@ -1,13 +1,11 @@
-<?php
+<?php namespace TicTacToe\ChatGPT;
 
-namespace TicTacToe\ChatGPT;
-
-final class CurlChatGPTConversation
+final readonly class CurlChatGPTConversation implements ChatGPTConversation
 {
     public function __construct(
-        private readonly string $apiEndpoint,
-        private readonly string $apiKey,
-        private readonly Messages $messages,
+        private string $apiEndpoint,
+        private string $apiKey,
+        private Messages $messages,
     ) {
     }
 
@@ -23,6 +21,11 @@ final class CurlChatGPTConversation
         $this->messages->addUser($message);
 
         return $this->makeRequest();
+    }
+
+    public function transcript(): Messages
+    {
+        return $this->messages;
     }
 
     private function makeRequest(): Response
@@ -41,7 +44,11 @@ final class CurlChatGPTConversation
         
         curl_close($ch);
 
-        return Response::fromApi($response);
+        $response = Response::fromApi($response);
+        
+        $this->messages->addAssistant($response->message());
+        
+        return $response;
     }
 
     private function postData(): string

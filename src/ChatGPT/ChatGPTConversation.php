@@ -2,6 +2,7 @@
 
 interface ChatGPTConversation
 {
-    public function addSystemMessage(string $message): void;
+    public function addContext(string $message): void;
     public function say(string $message): Response;
+    public function transcript(): Messages;
 }

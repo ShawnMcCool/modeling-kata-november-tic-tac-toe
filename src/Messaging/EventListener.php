@@ -2,5 +2,5 @@
 
 interface EventListener
 {
-    public function handle($event);
+    public function handle($event): void;
 }

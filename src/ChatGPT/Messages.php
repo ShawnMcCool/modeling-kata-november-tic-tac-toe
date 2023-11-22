@@ -20,6 +20,14 @@ final class Messages
         ];
     }
 
+    public function addAssistant(string $message): void
+    {
+        $this->messages[] = [
+            'role' => 'assistant',
+            'content' => $message,
+        ];
+    }
+
     public function toApi(): array
     {
         return $this->messages;

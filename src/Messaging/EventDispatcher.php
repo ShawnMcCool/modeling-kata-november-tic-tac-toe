@@ -2,6 +2,8 @@
 
 final class EventDispatcher
 {
+    private array $queue = [];
+    
     public function __construct(
         private array $listeners = []
     ) {
@@ -15,6 +17,12 @@ final class EventDispatcher
     public function dispatchEvents(array $events): void
     {
         foreach ($events as $event) {
+            $this->queue[] = $event;
+        }
+        
+        while ( ! empty($this->queue)) {
+            $event = array_shift($this->queue);
+            
             $this->dispatchEvent($event);
         }
     }

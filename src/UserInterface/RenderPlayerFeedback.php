@@ -47,7 +47,7 @@ final class RenderPlayerFeedback implements EventListener
         $this->drawBoard();
 
         echo "{$event->firstPlayer->toString()} is the first player and is placing '$event->firstPlayerMark'.\n";
-        echo "{$event->secondPlayer->toString()} is the first player and is placing '$event->secondPlayerMark'.\n";
+        echo "{$event->secondPlayer->toString()} is the second player and is placing '$event->secondPlayerMark'.\n";
         echo "\n";
     }
 
@@ -57,9 +57,9 @@ final class RenderPlayerFeedback implements EventListener
             $event->playerName,
             $event->markPosition,
         );
-        
+
         $this->drawBoard();
-        echo "{$event->playerName->toString()} has placed an {$this->playerMarks[$event->playerName->toString()]} at {$event->markPosition->x()},{$event->markPosition->y()}.\n";
+        echo "{$event->playerName->toString()} has placed an {$this->playerMarks[$event->playerName->toString()]} at {$event->markPosition->x()},{$event->markPosition->y()}.\n\n";
     }
 
     private function playerWonTheGame(PlayerWonTheGame $event): void
@@ -75,17 +75,18 @@ final class RenderPlayerFeedback implements EventListener
 
     private function drawBoard(): void
     {
-        echo TextTable::make()
-            ->withTitle("Tic Tac Toe")
-            ->withHeaders('', 1, 2, 3)
-            ->withRows($this->board)
-            ->toString();
+        echo "\n"
+            . TextTable::make()
+                ->withTitle("Tic Tac Toe")
+                ->withHeaders('', 1, 2, 3)
+                ->withRows($this->board)
+                ->toString();
     }
 
     private function placeMark(
-        PlayerName $player, 
+        PlayerName $player,
         MarkPosition $position
     ): void {
-        $this->board[$position->y()-1][$position->x()] = $this->playerMarks[$player->toString()];
+        $this->board[$position->y() - 1][$position->x()] = $this->playerMarks[$player->toString()];
     }
 }

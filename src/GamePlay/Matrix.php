@@ -68,7 +68,7 @@ final class Matrix
             );
 
             if ($this->isAWinningSet($marksOnColumn)) {
-                return $marksOnColumn[0]->player();
+                return current($marksOnColumn)->player();
             }
         }
 
@@ -104,7 +104,7 @@ final class Matrix
         );
 
         if ($this->isAWinningSet($marks)) {
-            return $marks[0]->player();
+            return current($marks)->player();
         }
 
         return null;
